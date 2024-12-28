@@ -98,6 +98,7 @@
             buttonEditar.TabIndex = 1;
             buttonEditar.Text = "Editar";
             buttonEditar.UseVisualStyleBackColor = true;
+            buttonEditar.Click += buttonEditar_Click;
             // 
             // buttonMarcarEnviada
             // 
@@ -175,6 +176,7 @@
             textBoxPaciente.PlaceholderText = "Paciente";
             textBoxPaciente.Size = new Size(306, 23);
             textBoxPaciente.TabIndex = 1;
+            textBoxPaciente.TextChanged += textBoxPaciente_TextChanged;
             // 
             // textBoxRazonSocial
             // 
@@ -184,6 +186,7 @@
             textBoxRazonSocial.PlaceholderText = "Razon Social";
             textBoxRazonSocial.Size = new Size(306, 23);
             textBoxRazonSocial.TabIndex = 2;
+            textBoxRazonSocial.TextChanged += textBoxRazonSocial_TextChanged;
             // 
             // textBoxRFC
             // 
