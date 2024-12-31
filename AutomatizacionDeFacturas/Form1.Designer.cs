@@ -33,6 +33,7 @@
             buttonEditar = new Button();
             buttonMarcarEnviada = new Button();
             buttonGenerarCorreos = new Button();
+            buttonGuardar = new Button();
             panelBusqueda = new Panel();
             tableLayoutPanelBusqueda = new TableLayoutPanel();
             labelBuscar = new Label();
@@ -70,11 +71,12 @@
             flowLayoutPanelBotones.Controls.Add(buttonEditar);
             flowLayoutPanelBotones.Controls.Add(buttonMarcarEnviada);
             flowLayoutPanelBotones.Controls.Add(buttonGenerarCorreos);
+            flowLayoutPanelBotones.Controls.Add(buttonGuardar);
             flowLayoutPanelBotones.Dock = DockStyle.Bottom;
-            flowLayoutPanelBotones.Location = new Point(0, 565);
+            flowLayoutPanelBotones.Location = new Point(0, 480);
             flowLayoutPanelBotones.Name = "flowLayoutPanelBotones";
             flowLayoutPanelBotones.Padding = new Padding(10);
-            flowLayoutPanelBotones.Size = new Size(958, 51);
+            flowLayoutPanelBotones.Size = new Size(1146, 51);
             flowLayoutPanelBotones.TabIndex = 0;
             // 
             // buttonAgregar
@@ -110,6 +112,7 @@
             buttonMarcarEnviada.TabIndex = 2;
             buttonMarcarEnviada.Text = "Marcar Como Enviada";
             buttonMarcarEnviada.UseVisualStyleBackColor = true;
+            buttonMarcarEnviada.Click += buttonMarcarEnviada_Click;
             // 
             // buttonGenerarCorreos
             // 
@@ -122,6 +125,16 @@
             buttonGenerarCorreos.Text = "Generar Correos Pendientes";
             buttonGenerarCorreos.UseVisualStyleBackColor = true;
             // 
+            // buttonGuardar
+            // 
+            buttonGuardar.Location = new Point(440, 13);
+            buttonGuardar.Name = "buttonGuardar";
+            buttonGuardar.Size = new Size(75, 23);
+            buttonGuardar.TabIndex = 4;
+            buttonGuardar.Text = "Guardar";
+            buttonGuardar.UseVisualStyleBackColor = true;
+            buttonGuardar.Click += buttonGuardar_Click;
+            // 
             // panelBusqueda
             // 
             panelBusqueda.Controls.Add(tableLayoutPanelBusqueda);
@@ -129,7 +142,7 @@
             panelBusqueda.Location = new Point(0, 0);
             panelBusqueda.Name = "panelBusqueda";
             panelBusqueda.Padding = new Padding(5);
-            panelBusqueda.Size = new Size(958, 100);
+            panelBusqueda.Size = new Size(1146, 100);
             panelBusqueda.TabIndex = 1;
             // 
             // tableLayoutPanelBusqueda
@@ -154,7 +167,7 @@
             tableLayoutPanelBusqueda.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanelBusqueda.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanelBusqueda.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanelBusqueda.Size = new Size(948, 90);
+            tableLayoutPanelBusqueda.Size = new Size(1136, 90);
             tableLayoutPanelBusqueda.TabIndex = 2;
             // 
             // labelBuscar
@@ -163,7 +176,7 @@
             labelBuscar.Dock = DockStyle.Fill;
             labelBuscar.Location = new Point(8, 5);
             labelBuscar.Name = "labelBuscar";
-            labelBuscar.Size = new Size(306, 26);
+            labelBuscar.Size = new Size(369, 26);
             labelBuscar.TabIndex = 0;
             labelBuscar.Text = "Buscar:";
             labelBuscar.TextAlign = ContentAlignment.MiddleLeft;
@@ -174,28 +187,29 @@
             textBoxPaciente.Location = new Point(8, 34);
             textBoxPaciente.Name = "textBoxPaciente";
             textBoxPaciente.PlaceholderText = "Paciente";
-            textBoxPaciente.Size = new Size(306, 23);
+            textBoxPaciente.Size = new Size(369, 23);
             textBoxPaciente.TabIndex = 1;
             textBoxPaciente.TextChanged += textBoxPaciente_TextChanged;
             // 
             // textBoxRazonSocial
             // 
             textBoxRazonSocial.Dock = DockStyle.Fill;
-            textBoxRazonSocial.Location = new Point(320, 34);
+            textBoxRazonSocial.Location = new Point(383, 34);
             textBoxRazonSocial.Name = "textBoxRazonSocial";
             textBoxRazonSocial.PlaceholderText = "Razon Social";
-            textBoxRazonSocial.Size = new Size(306, 23);
+            textBoxRazonSocial.Size = new Size(369, 23);
             textBoxRazonSocial.TabIndex = 2;
             textBoxRazonSocial.TextChanged += textBoxRazonSocial_TextChanged;
             // 
             // textBoxRFC
             // 
             textBoxRFC.Dock = DockStyle.Fill;
-            textBoxRFC.Location = new Point(632, 34);
+            textBoxRFC.Location = new Point(758, 34);
             textBoxRFC.Name = "textBoxRFC";
             textBoxRFC.PlaceholderText = "RFC";
-            textBoxRFC.Size = new Size(308, 23);
+            textBoxRFC.Size = new Size(370, 23);
             textBoxRFC.TabIndex = 3;
+            textBoxRFC.TextChanged += textBoxRFC_TextChanged;
             // 
             // textBoxTelefono
             // 
@@ -203,17 +217,19 @@
             textBoxTelefono.Location = new Point(8, 60);
             textBoxTelefono.Name = "textBoxTelefono";
             textBoxTelefono.PlaceholderText = "Telefono";
-            textBoxTelefono.Size = new Size(306, 23);
+            textBoxTelefono.Size = new Size(369, 23);
             textBoxTelefono.TabIndex = 4;
+            textBoxTelefono.TextChanged += textBoxTelefono_TextChanged;
             // 
             // textBoxCorreo
             // 
             textBoxCorreo.Dock = DockStyle.Fill;
-            textBoxCorreo.Location = new Point(320, 60);
+            textBoxCorreo.Location = new Point(383, 60);
             textBoxCorreo.Name = "textBoxCorreo";
             textBoxCorreo.PlaceholderText = "Correo";
-            textBoxCorreo.Size = new Size(306, 23);
+            textBoxCorreo.Size = new Size(369, 23);
             textBoxCorreo.TabIndex = 5;
+            textBoxCorreo.TextChanged += textBoxCorreo_TextChanged;
             // 
             // panelLista
             // 
@@ -222,7 +238,7 @@
             panelLista.Location = new Point(0, 100);
             panelLista.Name = "panelLista";
             panelLista.Padding = new Padding(10, 10, 10, 0);
-            panelLista.Size = new Size(958, 465);
+            panelLista.Size = new Size(1146, 380);
             panelLista.TabIndex = 2;
             // 
             // listViewSolicitudes
@@ -233,7 +249,7 @@
             listViewSolicitudes.Location = new Point(10, 10);
             listViewSolicitudes.MultiSelect = false;
             listViewSolicitudes.Name = "listViewSolicitudes";
-            listViewSolicitudes.Size = new Size(938, 455);
+            listViewSolicitudes.Size = new Size(1126, 370);
             listViewSolicitudes.TabIndex = 0;
             listViewSolicitudes.UseCompatibleStateImageBehavior = false;
             listViewSolicitudes.View = View.Details;
@@ -295,7 +311,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(958, 616);
+            ClientSize = new Size(1146, 531);
             Controls.Add(panelLista);
             Controls.Add(panelBusqueda);
             Controls.Add(flowLayoutPanelBotones);
@@ -344,5 +360,6 @@
         private ColumnHeader columnConcepto;
         private ColumnHeader columnTelefono;
         private ColumnHeader columnEstado;
+        private Button buttonGuardar;
     }
 }
