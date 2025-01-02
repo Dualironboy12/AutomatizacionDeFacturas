@@ -1,10 +1,39 @@
 using CsvHelper;
+using System.Formats.Asn1;
 using System.Globalization;
 
 namespace AutomatizacionDeFacturas
 {
     public partial class PaginaPrincipal : Form
     {
+        IEnumerable<Solicitud> solicitudes;
+        public void PopulateListFromCSV(string path)
+        {
+            this.listViewSolicitudes.Items.Clear();
+            using (var streamReader = new StreamReader(path)) {
+                using (var csvReader = new CsvReader(streamReader, CultureInfo.InvariantCulture))
+                {
+                    solicitudes = csvReader.GetRecords<Solicitud>();
+                    foreach (var solicitud in solicitudes)
+                    {
+                        ListViewItem solicitudItem = new ListViewItem(solicitud.Paciente);
+                        solicitudItem.SubItems.Add(solicitud.RazonSocial.ToString());
+                        solicitudItem.SubItems.Add(solicitud.RFC.ToString());
+                        solicitudItem.SubItems.Add(solicitud.Regimen.ToString());
+                        solicitudItem.SubItems.Add(solicitud.CFDI.ToString());
+                        solicitudItem.SubItems.Add(solicitud.Correo.ToString());
+                        solicitudItem.SubItems.Add(solicitud.CP.ToString());
+                        solicitudItem.SubItems.Add(solicitud.Fecha.ToString());
+                        solicitudItem.SubItems.Add(solicitud.Monto.ToString());
+                        solicitudItem.SubItems.Add(solicitud.FormaDePago.ToString());
+                        solicitudItem.SubItems.Add(solicitud.Concepto.ToString());
+                        solicitudItem.SubItems.Add(solicitud.Telefono.ToString());
+                        solicitudItem.SubItems.Add(solicitud.Estado.ToString());
+                        listViewSolicitudes.Items.Add(solicitudItem);
+                    }
+                }
+            }
+        }
         public PaginaPrincipal()
         {
             InitializeComponent();
@@ -12,38 +41,7 @@ namespace AutomatizacionDeFacturas
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            try
-            {
-                using (var streamReader = new StreamReader("solicitudes.csv"))
-                {
-                    using (var csvReader = new CsvReader(streamReader, CultureInfo.InvariantCulture))
-                    {
-                        var solicitudes = csvReader.GetRecords<Solicitud>();
-                        foreach (var solicitud in solicitudes)
-                        {
-                            ListViewItem solicitudItem = new ListViewItem(solicitud.Paciente);
-                            solicitudItem.SubItems.Add(solicitud.RazonSocial.ToString());
-                            solicitudItem.SubItems.Add(solicitud.RFC.ToString());
-                            solicitudItem.SubItems.Add(solicitud.Regimen.ToString());
-                            solicitudItem.SubItems.Add(solicitud.CFDI.ToString());
-                            solicitudItem.SubItems.Add(solicitud.Correo.ToString());
-                            solicitudItem.SubItems.Add(solicitud.CP.ToString());
-                            solicitudItem.SubItems.Add(solicitud.Fecha.ToString());
-                            solicitudItem.SubItems.Add(solicitud.Monto.ToString());
-                            solicitudItem.SubItems.Add(solicitud.FormaDePago.ToString());
-                            solicitudItem.SubItems.Add(solicitud.Concepto.ToString());
-                            solicitudItem.SubItems.Add(solicitud.Telefono.ToString());
-                            solicitudItem.SubItems.Add(solicitud.Estado.ToString());
-                            listViewSolicitudes.Items.Add(solicitudItem);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message + "\nPor favor seleccione la ubicacion de la base de datos.", "Archivo no encontrado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            listViewSolicitudes.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                        PopulateListFromCSV("solicitudes.csv");
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -58,7 +56,8 @@ namespace AutomatizacionDeFacturas
 
         private void buttonEditar_Click(object sender, EventArgs e)
         {
-
+            var ventanaEditar = new VentanaEditar();
+            ventanaEditar.ShowDialog();
         }
 
         private void textBoxPaciente_TextChanged(object sender, EventArgs e)
@@ -279,7 +278,8 @@ namespace AutomatizacionDeFacturas
         private void buttonGuardar_Click(object sender, EventArgs e)
         {
             List<Solicitud> solicitudesAGuardar = new List<Solicitud>();
-            foreach (ListViewItem item in listViewSolicitudes.Items) {
+            foreach (ListViewItem item in listViewSolicitudes.Items)
+            {
                 var solicitudAGuardar = new Solicitud();
                 DateOnly fecha = DateOnly.ParseExact(item.SubItems[7].Text, "dd/MM/yyyy");
                 solicitudAGuardar.Paciente = item.SubItems[0].Text;
@@ -307,6 +307,12 @@ namespace AutomatizacionDeFacturas
         private void buttonMarcarEnviada_Click(object sender, EventArgs e)
         {
             listViewSolicitudes.SelectedItems[0].SubItems[12].Text = "Enviada";
+        }
+
+        private void buttonAgregar_Click(object sender, EventArgs e)
+        {
+            var ventanaAgregar = new VentanaAgregar(this);
+            ventanaAgregar.Show();
         }
     }
 }

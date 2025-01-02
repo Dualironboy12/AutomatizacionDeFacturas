@@ -89,6 +89,7 @@
             buttonAgregar.TabIndex = 0;
             buttonAgregar.Text = "Agregar";
             buttonAgregar.UseVisualStyleBackColor = true;
+            buttonAgregar.Click += buttonAgregar_Click;
             // 
             // buttonEditar
             // 
