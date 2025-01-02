@@ -7,6 +7,24 @@ namespace AutomatizacionDeFacturas
     public partial class PaginaPrincipal : Form
     {
         IEnumerable<Solicitud> solicitudes;
+        public Solicitud ListViewItemToSolicitudClass(ListViewItem item) {
+            Solicitud solicitud = new Solicitud();
+            DateOnly fecha = DateOnly.ParseExact(item.SubItems[7].Text, "dd/MM/yyyy");
+            solicitud.Paciente = item.SubItems[0].Text;
+            solicitud.RazonSocial = item.SubItems[1].Text;
+            solicitud.RFC = item.SubItems[2].Text;
+            solicitud.Regimen = Convert.ToInt32(item.SubItems[3].Text);
+            solicitud.CFDI = item.SubItems[4].Text;
+            solicitud.Correo = item.SubItems[5].Text;
+            solicitud.CP = Convert.ToInt32(item.SubItems[6].Text);
+            solicitud.Fecha = fecha;
+            solicitud.Monto = Convert.ToInt32(item.SubItems[8].Text);
+            solicitud.FormaDePago = item.SubItems[9].Text;
+            solicitud.Concepto = item.SubItems[10].Text;
+            solicitud.Telefono = Convert.ToInt64(item.SubItems[11].Text);
+            solicitud.Estado = item.SubItems[12].Text;
+            return solicitud;
+        }
         public void PopulateListFromCSV(string path)
         {
             this.listViewSolicitudes.Items.Clear();
@@ -34,6 +52,25 @@ namespace AutomatizacionDeFacturas
                 }
             }
         }
+        public void GuardarListaEnCSV(string path) {
+            List<Solicitud> solicitudesAGuardar = new List<Solicitud>();
+            foreach (ListViewItem item in this.listViewSolicitudes.Items)
+            {
+                var solicitudAGuardar = ListViewItemToSolicitudClass(item);
+                solicitudesAGuardar.Add(solicitudAGuardar);
+            }
+            using (var writer = new StreamWriter(path))
+            {
+                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    csv.WriteRecords(solicitudesAGuardar);
+                }
+            }
+        }
+        public ListViewItem GetSelectedSolicitud()
+        {
+            return this.listViewSolicitudes.SelectedItems[0];
+        }
         public PaginaPrincipal()
         {
             InitializeComponent();
@@ -41,7 +78,7 @@ namespace AutomatizacionDeFacturas
 
         private void Form1_Load(object sender, EventArgs e)
         {
-                        PopulateListFromCSV("solicitudes.csv");
+            PopulateListFromCSV("solicitudes.csv");
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -56,8 +93,15 @@ namespace AutomatizacionDeFacturas
 
         private void buttonEditar_Click(object sender, EventArgs e)
         {
-            var ventanaEditar = new VentanaEditar();
-            ventanaEditar.ShowDialog();
+            if (listViewSolicitudes.SelectedItems.Count.Equals(0))
+            {
+                MessageBox.Show("Por favor seleccione un item para editar","Error",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                var ventanaEditar = new VentanaEditar(this);
+                ventanaEditar.ShowDialog();
+            }
         }
 
         private void textBoxPaciente_TextChanged(object sender, EventArgs e)
@@ -277,31 +321,7 @@ namespace AutomatizacionDeFacturas
 
         private void buttonGuardar_Click(object sender, EventArgs e)
         {
-            List<Solicitud> solicitudesAGuardar = new List<Solicitud>();
-            foreach (ListViewItem item in listViewSolicitudes.Items)
-            {
-                var solicitudAGuardar = new Solicitud();
-                DateOnly fecha = DateOnly.ParseExact(item.SubItems[7].Text, "dd/MM/yyyy");
-                solicitudAGuardar.Paciente = item.SubItems[0].Text;
-                solicitudAGuardar.RazonSocial = item.SubItems[1].Text;
-                solicitudAGuardar.RFC = item.SubItems[2].Text;
-                solicitudAGuardar.Regimen = Convert.ToInt32(item.SubItems[3].Text);
-                solicitudAGuardar.CFDI = item.SubItems[4].Text;
-                solicitudAGuardar.Correo = item.SubItems[5].Text;
-                solicitudAGuardar.CP = Convert.ToInt32(item.SubItems[6].Text);
-                solicitudAGuardar.Fecha = fecha;
-                solicitudAGuardar.Monto = Convert.ToInt32(item.SubItems[8].Text);
-                solicitudAGuardar.FormaDePago = item.SubItems[9].Text;
-                solicitudAGuardar.Concepto = item.SubItems[10].Text;
-                solicitudAGuardar.Telefono = Convert.ToInt64(item.SubItems[11].Text);
-                solicitudAGuardar.Estado = item.SubItems[12].Text;
-                solicitudesAGuardar.Add(solicitudAGuardar);
-            }
-            using (var writer = new StreamWriter("solicitudes.csv"))
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-            {
-                csv.WriteRecords(solicitudesAGuardar);
-            }
+            GuardarListaEnCSV("solicitudes.csv");
         }
 
         private void buttonMarcarEnviada_Click(object sender, EventArgs e)

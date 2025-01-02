@@ -7,7 +7,7 @@ using CsvHelper.Configuration.Attributes;
 
 namespace AutomatizacionDeFacturas
 {
-    internal class Solicitud
+    public class Solicitud
     {
         public string Paciente {  get; set; }
         public string RazonSocial { get; set; }

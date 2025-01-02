@@ -84,7 +84,7 @@
             flowLayoutAgregar.Location = new Point(0, 0);
             flowLayoutAgregar.Name = "flowLayoutAgregar";
             flowLayoutAgregar.Padding = new Padding(20);
-            flowLayoutAgregar.Size = new Size(631, 158);
+            flowLayoutAgregar.Size = new Size(634, 161);
             flowLayoutAgregar.TabIndex = 0;
             // 
             // labelPaciente
@@ -103,13 +103,13 @@
             textBoxPaciente.Location = new Point(84, 23);
             textBoxPaciente.Name = "textBoxPaciente";
             textBoxPaciente.PlaceholderText = "Paciente";
-            textBoxPaciente.Size = new Size(145, 23);
+            textBoxPaciente.Size = new Size(148, 23);
             textBoxPaciente.TabIndex = 1;
             // 
             // labelRazonSocial
             // 
             labelRazonSocial.AutoSize = true;
-            labelRazonSocial.Location = new Point(235, 25);
+            labelRazonSocial.Location = new Point(238, 25);
             labelRazonSocial.Margin = new Padding(3, 5, 3, 0);
             labelRazonSocial.Name = "labelRazonSocial";
             labelRazonSocial.Size = new Size(76, 15);
@@ -118,16 +118,16 @@
             // 
             // textBoxRazonSocial
             // 
-            textBoxRazonSocial.Location = new Point(317, 23);
+            textBoxRazonSocial.Location = new Point(320, 23);
             textBoxRazonSocial.Name = "textBoxRazonSocial";
             textBoxRazonSocial.PlaceholderText = "Razon Social";
-            textBoxRazonSocial.Size = new Size(145, 23);
+            textBoxRazonSocial.Size = new Size(148, 23);
             textBoxRazonSocial.TabIndex = 3;
             // 
             // labelRFC
             // 
             labelRFC.AutoSize = true;
-            labelRFC.Location = new Point(468, 25);
+            labelRFC.Location = new Point(474, 25);
             labelRFC.Margin = new Padding(3, 5, 3, 0);
             labelRFC.Name = "labelRFC";
             labelRFC.Size = new Size(31, 15);
@@ -136,10 +136,10 @@
             // 
             // textBoxRFC
             // 
-            textBoxRFC.Location = new Point(505, 23);
+            textBoxRFC.Location = new Point(511, 23);
             textBoxRFC.Name = "textBoxRFC";
             textBoxRFC.PlaceholderText = "RFC";
-            textBoxRFC.Size = new Size(103, 23);
+            textBoxRFC.Size = new Size(100, 23);
             textBoxRFC.TabIndex = 5;
             // 
             // labelRegimen
@@ -195,7 +195,7 @@
             textBoxCorreo.Location = new Point(462, 52);
             textBoxCorreo.Name = "textBoxCorreo";
             textBoxCorreo.PlaceholderText = "Correo";
-            textBoxCorreo.Size = new Size(146, 23);
+            textBoxCorreo.Size = new Size(149, 23);
             textBoxCorreo.TabIndex = 11;
             // 
             // labelCP
@@ -213,13 +213,13 @@
             textBoxCP.Location = new Point(113, 81);
             textBoxCP.Name = "textBoxCP";
             textBoxCP.PlaceholderText = "Codigo Postal";
-            textBoxCP.Size = new Size(105, 23);
+            textBoxCP.Size = new Size(107, 23);
             textBoxCP.TabIndex = 13;
             // 
             // labelMonto
             // 
             labelMonto.AutoSize = true;
-            labelMonto.Location = new Point(224, 83);
+            labelMonto.Location = new Point(226, 83);
             labelMonto.Margin = new Padding(3, 5, 3, 0);
             labelMonto.Name = "labelMonto";
             labelMonto.Size = new Size(46, 15);
@@ -228,16 +228,16 @@
             // 
             // textBoxMonto
             // 
-            textBoxMonto.Location = new Point(276, 81);
+            textBoxMonto.Location = new Point(278, 81);
             textBoxMonto.Name = "textBoxMonto";
             textBoxMonto.PlaceholderText = "Monto";
-            textBoxMonto.Size = new Size(105, 23);
+            textBoxMonto.Size = new Size(107, 23);
             textBoxMonto.TabIndex = 15;
             // 
             // labelFormaDePago
             // 
             labelFormaDePago.AutoSize = true;
-            labelFormaDePago.Location = new Point(387, 83);
+            labelFormaDePago.Location = new Point(391, 83);
             labelFormaDePago.Margin = new Padding(3, 5, 3, 0);
             labelFormaDePago.Name = "labelFormaDePago";
             labelFormaDePago.Size = new Size(90, 15);
@@ -248,11 +248,11 @@
             // 
             comboBoxFormaDePago.FormattingEnabled = true;
             comboBoxFormaDePago.Items.AddRange(new object[] { "Efectivo", "Credito", "Debito", "Transferencia" });
-            comboBoxFormaDePago.Location = new Point(483, 81);
+            comboBoxFormaDePago.Location = new Point(487, 81);
             comboBoxFormaDePago.Name = "comboBoxFormaDePago";
-            comboBoxFormaDePago.Size = new Size(125, 23);
+            comboBoxFormaDePago.Size = new Size(124, 23);
             comboBoxFormaDePago.TabIndex = 17;
-            comboBoxFormaDePago.Text = "Froma de Pago";
+            comboBoxFormaDePago.Text = "Forma de Pago";
             // 
             // labelConcepto
             // 
@@ -287,12 +287,12 @@
             textBoxTelefono.Location = new Point(427, 110);
             textBoxTelefono.Name = "textBoxTelefono";
             textBoxTelefono.PlaceholderText = "Telefono";
-            textBoxTelefono.Size = new Size(100, 23);
+            textBoxTelefono.Size = new Size(103, 23);
             textBoxTelefono.TabIndex = 21;
             // 
             // buttonAgregar
             // 
-            buttonAgregar.Location = new Point(533, 110);
+            buttonAgregar.Location = new Point(536, 110);
             buttonAgregar.Name = "buttonAgregar";
             buttonAgregar.Size = new Size(75, 23);
             buttonAgregar.TabIndex = 22;
@@ -304,7 +304,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(631, 158);
+            ClientSize = new Size(634, 161);
             Controls.Add(flowLayoutAgregar);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
