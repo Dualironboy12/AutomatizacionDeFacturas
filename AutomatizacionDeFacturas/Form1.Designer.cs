@@ -125,6 +125,7 @@
             buttonGenerarCorreos.TabIndex = 3;
             buttonGenerarCorreos.Text = "Generar Correos Pendientes";
             buttonGenerarCorreos.UseVisualStyleBackColor = true;
+            buttonGenerarCorreos.Click += buttonGenerarCorreos_Click;
             // 
             // buttonGuardar
             // 

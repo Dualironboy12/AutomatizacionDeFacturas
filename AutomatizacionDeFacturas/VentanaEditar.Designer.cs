@@ -296,6 +296,7 @@
             buttonGuardar.TabIndex = 22;
             buttonGuardar.Text = "Guardar";
             buttonGuardar.UseVisualStyleBackColor = true;
+            buttonGuardar.Click += buttonGuardar_Click;
             // 
             // VentanaEditar
             // 

@@ -7,7 +7,76 @@ namespace AutomatizacionDeFacturas
     public partial class PaginaPrincipal : Form
     {
         IEnumerable<Solicitud> solicitudes;
-        public Solicitud ListViewItemToSolicitudClass(ListViewItem item) {
+        public List<Solicitud> ReadCSV(String path)
+        {
+            using (var streamReader = new StreamReader(path))
+            {
+                using (var csvReader = new CsvReader(streamReader, CultureInfo.InvariantCulture))
+                {
+                    List<Solicitud> solicitudesLista = new();
+                    foreach(Solicitud solicitud in csvReader.GetRecords<Solicitud>())
+                    {
+                        solicitudesLista.Add(solicitud);
+                    }
+                    return solicitudesLista;
+                }
+            }
+        }
+        public List<Solicitud> GetPendientes(IEnumerable<Solicitud> solicitudes)
+        {
+            List<Solicitud> solicitudesPendientes = new List<Solicitud>();
+
+            foreach(Solicitud solicitud in solicitudes)
+            {
+                if (solicitud.Estado.Equals("Pendiente"))
+                {
+                    solicitudesPendientes.Add(solicitud);
+                }
+            }
+
+            return solicitudesPendientes;
+        }
+        public String GenerarTextoCorreo()
+        {
+            solicitudes = GetPendientes(ReadCSV("solicitudes.csv"));
+            String correo = "Buenas tardes, pueden apoyarnos con las siguientes facturas: \n\n";
+            foreach(Solicitud solicitud in solicitudes)
+            {
+                correo = correo + "Razon Social: " + solicitud.RazonSocial + "\n" +
+                    "RFC: " + solicitud.RFC + "\n" +
+                    "Regimen: " + solicitud.Regimen + "\n" +
+                    "Concepto: " + solicitud.Concepto + "\n" +
+                    "Codigo Postal: " + solicitud.CP + "\n" +
+                    "Uso de CFDI: " + solicitud.CFDI + "\n" +
+                    "Forma de Pago: " + solicitud.FormaDePago + "\n" +
+                    "Monto: " + solicitud.Monto + "\n\n";
+            }
+            return correo;
+        }
+        public void ReplaceListItem(ListViewItem item)
+        {
+            this.listViewSolicitudes.Items.Remove(listViewSolicitudes.SelectedItems[0]);
+            this.listViewSolicitudes.Items.Add(item);
+        }
+        public ListViewItem ClassToListViewItem(Solicitud solicitud)
+        {
+            ListViewItem item = new ListViewItem(solicitud.Paciente);
+            item.SubItems.Add(solicitud.RazonSocial.ToString());
+            item.SubItems.Add(solicitud.RFC.ToString());
+            item.SubItems.Add(solicitud.Regimen.ToString());
+            item.SubItems.Add(solicitud.CFDI.ToString());
+            item.SubItems.Add(solicitud.Correo.ToString());
+            item.SubItems.Add(solicitud.CP.ToString());
+            item.SubItems.Add(solicitud.Fecha.ToString());
+            item.SubItems.Add(solicitud.Monto.ToString());
+            item.SubItems.Add(solicitud.FormaDePago.ToString());
+            item.SubItems.Add(solicitud.Concepto.ToString());
+            item.SubItems.Add(solicitud.Telefono.ToString());
+            item.SubItems.Add(solicitud.Estado.ToString());
+            return item;
+        }
+        public Solicitud ListViewItemToSolicitudClass(ListViewItem item)
+        {
             Solicitud solicitud = new Solicitud();
             DateOnly fecha = DateOnly.ParseExact(item.SubItems[7].Text, "dd/MM/yyyy");
             solicitud.Paciente = item.SubItems[0].Text;
@@ -28,31 +97,14 @@ namespace AutomatizacionDeFacturas
         public void PopulateListFromCSV(string path)
         {
             this.listViewSolicitudes.Items.Clear();
-            using (var streamReader = new StreamReader(path)) {
-                using (var csvReader = new CsvReader(streamReader, CultureInfo.InvariantCulture))
-                {
-                    solicitudes = csvReader.GetRecords<Solicitud>();
-                    foreach (var solicitud in solicitudes)
-                    {
-                        ListViewItem solicitudItem = new ListViewItem(solicitud.Paciente);
-                        solicitudItem.SubItems.Add(solicitud.RazonSocial.ToString());
-                        solicitudItem.SubItems.Add(solicitud.RFC.ToString());
-                        solicitudItem.SubItems.Add(solicitud.Regimen.ToString());
-                        solicitudItem.SubItems.Add(solicitud.CFDI.ToString());
-                        solicitudItem.SubItems.Add(solicitud.Correo.ToString());
-                        solicitudItem.SubItems.Add(solicitud.CP.ToString());
-                        solicitudItem.SubItems.Add(solicitud.Fecha.ToString());
-                        solicitudItem.SubItems.Add(solicitud.Monto.ToString());
-                        solicitudItem.SubItems.Add(solicitud.FormaDePago.ToString());
-                        solicitudItem.SubItems.Add(solicitud.Concepto.ToString());
-                        solicitudItem.SubItems.Add(solicitud.Telefono.ToString());
-                        solicitudItem.SubItems.Add(solicitud.Estado.ToString());
-                        listViewSolicitudes.Items.Add(solicitudItem);
-                    }
-                }
+            solicitudes = ReadCSV("solicitudes.csv");
+            foreach (var solicitud in solicitudes)
+            {
+                listViewSolicitudes.Items.Add(ClassToListViewItem(solicitud));
             }
         }
-        public void GuardarListaEnCSV(string path) {
+        public void GuardarListaEnCSV(string path)
+        {
             List<Solicitud> solicitudesAGuardar = new List<Solicitud>();
             foreach (ListViewItem item in this.listViewSolicitudes.Items)
             {
@@ -95,7 +147,7 @@ namespace AutomatizacionDeFacturas
         {
             if (listViewSolicitudes.SelectedItems.Count.Equals(0))
             {
-                MessageBox.Show("Por favor seleccione un item para editar","Error",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor seleccione un item para editar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
@@ -333,6 +385,12 @@ namespace AutomatizacionDeFacturas
         {
             var ventanaAgregar = new VentanaAgregar(this);
             ventanaAgregar.Show();
+        }
+
+        private void buttonGenerarCorreos_Click(object sender, EventArgs e)
+        {
+            GuardarListaEnCSV("solicitudes.csv");
+            System.Windows.Forms.Clipboard.SetText(GenerarTextoCorreo());
         }
     }
 }
